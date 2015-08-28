@@ -28,27 +28,27 @@ When we contacted the Census Department for 2011 data they stated that shape fil
 *To find coordinates for Mumbai use the following code
 
     ```python
-    import Locations as LC
-    
-    lc_i = LC.Location()
-    mum_cord = lc_i.getCoordinates("Mumbai")
+        import Locations as LC
+        
+        lc_i = LC.Location()
+        mum_cord = lc_i.getCoordinates("Mumbai")
     ```
 *To find coordinates for Nehdai Village in Jaisalmer District of Rajasthan state use the following code
 
     ```python
-    import Locations as LC
-    
-    lc_i = LC.Location(state="Rajasthan",district="Jaisalmer")
-    nehdai_cord = lc_i.getCoordinates("Nehdai")
+        import Locations as LC
+        
+        lc_i = LC.Location(state="Rajasthan",district="Jaisalmer")
+        nehdai_cord = lc_i.getCoordinates("Nehdai")
     ```
 
 *To find coordinates for Parbatsar in Rajasthan state use the following code
 
     ```python
-    import Locations as LC
-    
-    lc_i = LC.Location(state="Rajasthan")
-    parbatsar_cord = lc_i.getCoordinates("Parbatsar")
+        import Locations as LC
+        
+        lc_i = LC.Location(state="Rajasthan")
+        parbatsar_cord = lc_i.getCoordinates("Parbatsar")
     ```
 
     
