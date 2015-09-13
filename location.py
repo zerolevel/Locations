@@ -34,33 +34,30 @@ class Location:
         else :
             return abs(int(a[1:]) - int(b[1:])) + 250
 
-    def __chooseBestMarker(self, query, markers):
-        lat = None
-        lng = None
-        quality = "Not_Available"
-        name = None
-        state = None
-        district = None
-        sub_district = None
-        level = None
-        names = [marker.getAttribute("name") for marker in markers]
-        diffs = [self.__diffsoundex(name, query) for name in names]
-        try:
-            min_index, min_value = min(enumerate(diffs),key=operator.itemgetter(1))
-            marker = markers[min_index]
-            lat = marker.getAttribute("lat")
-            lng = marker.getAttribute("lng")
-            name = marker.getAttribute("name")
-            state = marker.getAttribute("state_ut")
-            district = marker.getAttribute("district")
-            sub_district = marker.getAttribute("tahsil")
-            level = marker.getAttribute("level")
-            quality = "Taken_Help_Of_Phones"
-
-        except ValueError:
-            pass
-        return Coordinates(lat=lat, lng=lng, quality=quality, name=name.upper(), state=state, district=district,
-                           sub_district=sub_district, level=level, given_query=query.upper())
+    def __chooseBestMarker(self, query, markers, listLength):
+        for marker in markers:
+            marker.setAttribute("soundex_diff", self.__diffsoundex(marker.getAttribute("name"), query))
+        listLength = min(listLength,markers.__len__())
+        markers = sorted(markers, cmp=lambda x, y: cmp(x.getAttribute("soundex_diff"), y.getAttribute("soundex_diff")))
+        coordinates = []
+        q_u = query.upper()
+        for marker in markers[:listLength]:
+            try:
+                coordinates.append(
+                    Coordinates(
+                        lat = marker.getAttribute("lat"),
+                        lng = marker.getAttribute("lng"),
+                        name = marker.getAttribute("name").upper(),
+                        state = marker.getAttribute("state_ut"),
+                        district = marker.getAttribute("district"),
+                        sub_district = marker.getAttribute("tahsil"),
+                        level = marker.getAttribute("level"),
+                        quality = "Taken_Help_Of_Phones",
+                        given_query=q_u
+                    ))
+            except ValueError:
+                pass
+        return coordinates
 
     def __getVillageMarkersFromWeb(self,query, state_code=None, district_code=None):
         stateString = '"state":"' + state_code + '"' if state_code is not None else ""
@@ -93,6 +90,10 @@ class Location:
         else:
             return ""
 
-    def getCoordinates(self, query):
+    def getCoordinates(self, query,listLength=1):
+        if type(listLength) != int or listLength < 1:
+            listLength = 1
+        ##Size of listLength doesnot make sense to be more than 10
+        listLength = max(listLength, 10)
         markers = self.__getVillageMarkersFromWeb(query, self.state_code, self.district_code)
-        return self.__chooseBestMarker(query, markers)
+        return self.__chooseBestMarker(query, markers, listLength)
