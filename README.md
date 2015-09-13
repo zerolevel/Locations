@@ -52,5 +52,14 @@ When we contacted the Census Department for 2011 data they stated that shape fil
         parbatsar_cord = lc_i.getCoordinates("Parbatsar")
     ```
 
+* To get a List of best suited coordinates as per the query arguments add 'listLength' as follows
+
+    ```python
+        import Locations as LC
+        
+        lc_i = LC.Location(state="Rajasthan")
+        parbatsar_cord = lc_i.getCoordinates("Parbatsar",listLength=5)
+    '''
+
 ##Acknowledgements
 Thanks to http://india.csis.u-tokyo.ac.jp/default/single for making this possible
