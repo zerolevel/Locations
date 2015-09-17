@@ -21,5 +21,6 @@ class Coordinates:
             self.name == other.name
 
     def __repr__(self):
-        return str(self.lat) + " " + str(self.lng) + " " + str(self.state) + " " +\
-               str(self.district) + " " + str(self.sub_district) + " " + str(self.level) + " " + str(self.name)
+        return "lat:" + str(self.lat) + ", " + "lon:"+ str(self.lng) + ", " + "state:"+str(self.state) + " ," +\
+              "district:"+ str(self.district) + ", " +"sub_district:"+ str(self.sub_district) + " ," +"level:"+ str(self.level) + " ," + "name:"+ str(self.name)
+              
